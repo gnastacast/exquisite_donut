@@ -187,7 +187,7 @@ namespace ExquisiteDonut
 			} else {
 				knownIDs.Add(newID);
 			}
-			Debug.Log("Received an update from ID " + statusId + ": it has " + sprinkles + " sprinkles.");
+			//Debug.Log("Received an update from ID " + statusId + ": it has " + sprinkles + " sprinkles.");
 		}
 
 		private void HandleControlMessage(List<object> dataVec) {
@@ -228,7 +228,7 @@ namespace ExquisiteDonut
 			if (rightId == -1) {
 				rightId = maxId;
 			}
-			Debug.Log("My left ID is " + leftId.ToString() + " and my right ID is " + rightId.ToString() +  ".");
+			//Debug.Log("My left ID is " + leftId.ToString() + " and my right ID is " + rightId.ToString() +  ".");
 		}
 
 		private void HandleSprinkleMessage(List<object> dataVec) {

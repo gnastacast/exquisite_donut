@@ -7,6 +7,9 @@ using UnityOSC;
 namespace ExquisiteDonut
 {
 	public class Sprinkle {
+		public Vector3 worldPos;
+		public Vector3 worldVel;
+		public Vector3 worldAcc;
 		public Vector2 pos;
 		public Vector2 vel;
 		public Vector2 acc;
