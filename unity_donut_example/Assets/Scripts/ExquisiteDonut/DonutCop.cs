@@ -27,8 +27,8 @@ namespace ExquisiteDonut
 		// Received Control Variables
 		private int _maxSprinkles = 800;      // The maximum number of Sprinkles allowed on screen
 		private int _minSprinkles = 0;      // The minimum number of Sprinkles allowed on screen
-		private int _maxNewSprinkles = 10;   // The # of Sprinkles allowed to appear per-second
-		private float _maxVelocity = 0.02f;     // The maximum speed a sprinkle can have
+		private int _maxNewSprinkles = 60;   // The # of Sprinkles allowed to appear per-second
+		private float _maxVelocity = 0.01f;     // The maximum speed a sprinkle can have
 		private float _maxAcceleration = 0.001f; // The maximum accelleration for a sprinkle
 		// Sprinkle buffer
 		private List<Sprinkle> sprinkleBuffer= new List<Sprinkle>();

@@ -82,8 +82,6 @@ public class Osc : MonoBehaviour
 				} else
 					Thread.Sleep (20);
 			}
-		} catch (Exception e) {
-			//Debug.Log("ThreadAbortException"+e);
 		} finally {
 			//Debug.Log("terminating thread - clearing handlers");
 			//Cancel();

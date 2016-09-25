@@ -37,7 +37,7 @@ public class ParticleController : MonoBehaviour {
 		// Game settings
 		QualitySettings.vSyncCount = 0;
 		Application.targetFrameRate = -1;
-		float targetFramerate = 20;
+		float targetFramerate = 60;
 		Time.fixedDeltaTime = 1F / targetFramerate;
 		maxY = (float)cam.pixelHeight / cam.pixelWidth;
 
@@ -62,6 +62,7 @@ public class ParticleController : MonoBehaviour {
 		for (int i = 0; i < dots.Length; i++) {
 			dots [i] = Instantiate(dot);
 			dots [i].transform.position.Set (0, 1000, 0);
+			//dots[i].GetComponent<Renderer>().material.color =  Random.ColorHSV(0f, 1f, 1, 1, 1, 1);
 		}
 
 		// Counter for generating random sprinkles
@@ -82,7 +83,7 @@ public class ParticleController : MonoBehaviour {
 		}
 
 		// Make random sprinkles
-		if (counter == 0) {
+		if (counter % 60 == 0) {
 			ProduceRandomSprinkle ();
 		}
 		counter++;
@@ -129,8 +130,8 @@ public class ParticleController : MonoBehaviour {
 	// Testing function to initialize random sprinkles
 	void ProduceRandomSprinkle(){
 		Vector2 pos = new Vector2 (0, Random.value*maxY);
-		Vector2 vel = new Vector2 (cop.maxVelocity()/2, 0);//Random.Range(0.005f,0.01f),0);
-		Vector2 acc = new Vector2(0,0);
+		Vector2 vel = new Vector2 ((Mathf.RoundToInt(Random.value)-.5f)*cop.maxVelocity(),0);//Random.Range(0.005f,0.01f),0);
+		Vector2 acc = new Vector2(0,.001f*(Random.value-.5f));
 		Sprinkle p = new Sprinkle(pos,vel,acc, 0, 0);
 		if (cop.AllowedToCreateSprinkle(sprinkles.Count)){
 			sprinkles.Add (p);
@@ -138,7 +139,7 @@ public class ParticleController : MonoBehaviour {
 		}
 	}
 
-	void DrawSprinkle(Sprinkle p) {
+	void DrawSprinkle(Sprinkle p, bool debugMode = true) {
 		int layerMask = 1 << 8;
 		// Calculate position in world space
 		Vector3 screenPos = new Vector3 (p.pos.x * w, (maxY-p.pos.y) * w, 0);
@@ -152,14 +153,14 @@ public class ParticleController : MonoBehaviour {
 		ray = cam.ScreenPointToRay (screenVel);
 		if (Physics.Raycast (ray, out hit, Mathf.Infinity, layerMask)) {
 			p.worldVel = hit.point - p.worldPos;
-			Debug.DrawLine(p.worldPos, p.worldPos + p.worldVel*10, new Color (1, 1, 0));
+			if(debugMode) Debug.DrawLine(p.worldPos, p.worldPos + p.worldVel*10, new Color (1, 1, 0));
 		}
 		// Calculate velocity in world space
 		Vector3 screenAcc = screenPos + new Vector3(p.acc.x * w, -p.acc.y * w, 0);
 		ray = cam.ScreenPointToRay (screenAcc);
 		if (Physics.Raycast (ray, out hit, Mathf.Infinity, layerMask)) {
 			p.worldAcc = hit.point - p.worldPos;
-			Debug.DrawLine(p.worldPos, p.worldPos + p.worldAcc*500, new Color (1, 0, 0));
+			if(debugMode) Debug.DrawLine(p.worldPos, p.worldPos + p.worldAcc*500, new Color (1, 0, 0));
 		}
 		dots[p.id].transform.position = p.worldPos;
 	}
@@ -176,12 +177,16 @@ public class ParticleController : MonoBehaviour {
 		// Reverse velocity if position is out of bounds
 		if(p.pos.y<0){
 			p.vel.y = Mathf.Abs(p.vel.y);
+			p.acc.y = Mathf.Abs (p.acc.y) / 2;
 		}
 		else if(p.pos.y>maxY){
 			p.vel.y = Mathf.Abs(p.vel.y)*-1;
+			p.acc.y = Mathf.Abs (p.acc.y) / -2;
 		}
 		else{
-			p.acc.y = .0002f;   
+			//p.acc.y = .0002f*(1-p.pos.y-maxY/2.0f);
+			//p.acc.y = .001f*(Random.value-.5f);
+			//p.acc.x = .0001f*(Random.value-.5f);
 		}
 	}
 
