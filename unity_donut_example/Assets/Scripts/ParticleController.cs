@@ -58,7 +58,7 @@ public class ParticleController : MonoBehaviour {
 		sprinkles = new SprinkleManager (cop.maxSprinkles());
 
 		// Preallocate game objects for speed
-		dots = new GameObject[cop.maxSprinkles()];
+		dots = new GameObject[cop.maxSprinkles()*2];
 		for (int i = 0; i < dots.Length; i++) {
 			dots [i] = Instantiate(dot);
 			dots [i].transform.position.Set (0, 1000, 0);
@@ -108,15 +108,24 @@ public class ParticleController : MonoBehaviour {
 		for (int i = 0; i< dots.Length; i++) {
 			dots[i].SetActive (false);
 		}
+		int activeDots = 0;
 		// Enable and draw all the dots that have sprinkles attached
 		for (int i = 0; i < dots.Length && i < sprinkles.Count; i++) {
 			Sprinkle p = sprinkles [sprinkles.Count -1 - i];
 			dots[p.id].SetActive (true);
 			DrawSprinkle (p);
+			activeDots++;
 		}
 
 		// Change public variable for editor window
 		numSprinkles = sprinkles.Count;
+		/*
+		int activeDots = 0;
+		for (int i = 0; i< dots.Length; i++) {
+			if (dots [i].activeInHierarchy)
+				activeDots++;
+		}*/
+		if(counter % 10 == 0) Debug.Log ("Error: " + (numSprinkles - activeDots) + " NumSprinkles: " + numSprinkles);
 	}
 
 	// Update is called once per frame. You can use this for things that don't have to be 60fps
@@ -131,7 +140,7 @@ public class ParticleController : MonoBehaviour {
 	void ProduceRandomSprinkle(){
 		Vector2 pos = new Vector2 (0, Random.value*maxY);
 		Vector2 vel = new Vector2 ((Mathf.RoundToInt(Random.value)-.5f)*cop.maxVelocity(),0);//Random.Range(0.005f,0.01f),0);
-		Vector2 acc = new Vector2(0,.001f*(Random.value-.5f));
+		Vector2 acc = new Vector2(0,.001f*(Random.value*vel.y));
 		Sprinkle p = new Sprinkle(pos,vel,acc, 0, 0);
 		if (cop.AllowedToCreateSprinkle(sprinkles.Count)){
 			sprinkles.Add (p);

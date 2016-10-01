@@ -195,7 +195,7 @@ public class IKLimb: MonoBehaviour {
 			Debug.DrawLine(forearm.position, elbowTarget.position, Color.yellow);
 			Debug.DrawLine(upperArm.position, target.position, Color.red);
 				
-			Debug.Log("[IK Limb] adjacent: " + adjacent);
+			//Debug.Log("[IK Limb] adjacent: " + adjacent);
 		}
 	}
 }

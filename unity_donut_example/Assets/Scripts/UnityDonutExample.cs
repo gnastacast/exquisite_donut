@@ -58,7 +58,7 @@ public class UnityDonutExample : MonoBehaviour {
 
 
 		// Preallocate game objects for speed
-		dots = new GameObject[cop.maxSprinkles()];
+		dots = new GameObject[cop.maxSprinkles()*2];
 		for (int i = 0; i < dots.Length; i++) {
 			dots [i] = Instantiate(dot);
 			dots [i].transform.position.Set (0, 1000, 0);

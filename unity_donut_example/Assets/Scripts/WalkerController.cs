@@ -171,6 +171,8 @@ public class WalkerController : MonoBehaviour {
 		for(int i = 0; i < ctrl.sprinkles.Count; i++)
 		{
 			Sprinkle p = ctrl.sprinkles [i];
+			Vector3 offset = new Vector3 (0, 0, 1);
+			Debug.DrawLine (p.worldPos, p.worldPos + offset);
 			float mag = Vector3.Magnitude (p.worldPos - f.position);
 			float t = mag / footSpeed;
 			Vector3 deltaPos = p.worldVel * t + p.worldAcc * t * t *.5f;
