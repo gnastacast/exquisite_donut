@@ -125,7 +125,7 @@ public class ParticleController : MonoBehaviour {
 			if (dots [i].activeInHierarchy)
 				activeDots++;
 		}*/
-		if(counter % 10 == 0) Debug.Log ("Error: " + (numSprinkles - activeDots) + " NumSprinkles: " + numSprinkles);
+		//if(counter % 10 == 0) Debug.Log ("Error: " + (numSprinkles - activeDots) + " NumSprinkles: " + numSprinkles);
 	}
 
 	// Update is called once per frame. You can use this for things that don't have to be 60fps
